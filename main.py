@@ -95,7 +95,8 @@ def Channel (mean, variance, length):
     Outputs:
         generated random noise
     '''
-    return np.random.normal(mean, np.sqrt(variance), length)
+    return math.sqrt(variance/2)*np.random.randn(length)
+    # return np.random.normal(mean, np.sqrt(variance), length)
 
 
 def DeMapper(Noisy_Bits_to_Symbols):
@@ -116,21 +117,37 @@ def DeMapper(Noisy_Bits_to_Symbols):
 
     for symbole in Noisy_Bits_to_Symbols:
         if symbole <= Symbols_boundry[0]:
-            Received_Bits.append("110")
+            Received_Bits.append(1)
+            Received_Bits.append(1)
+            Received_Bits.append(0)
         elif symbole > Symbols_boundry[0] and symbole <= Symbols_boundry[1]:
-            Received_Bits.append("111")
+            Received_Bits.append(1)
+            Received_Bits.append(1)
+            Received_Bits.append(1)
         elif symbole > Symbols_boundry[1] and symbole <= Symbols_boundry[2]:
-            Received_Bits.append("101")
+            Received_Bits.append(1)
+            Received_Bits.append(0)
+            Received_Bits.append(1)
         elif symbole > Symbols_boundry[2] and symbole <= Symbols_boundry[3]:
-            Received_Bits.append("100")
+            Received_Bits.append(1)
+            Received_Bits.append(0)
+            Received_Bits.append(0)
         elif symbole > Symbols_boundry[3] and symbole <= Symbols_boundry[4]:
-            Received_Bits.append("000")
+            Received_Bits.append(0)
+            Received_Bits.append(0)
+            Received_Bits.append(0)
         elif symbole > Symbols_boundry[4] and symbole <= Symbols_boundry[5]:
-            Received_Bits.append("001")
+            Received_Bits.append(0)
+            Received_Bits.append(0)
+            Received_Bits.append(1)
         elif symbole > Symbols_boundry[5] and symbole <= Symbols_boundry[6]:
-            Received_Bits.append("011")
+            Received_Bits.append(0)
+            Received_Bits.append(1)
+            Received_Bits.append(1)
         elif symbole > Symbols_boundry[6]:
-            Received_Bits.append("010")
+            Received_Bits.append(0)
+            Received_Bits.append(1)
+            Received_Bits.append(0)
         else:
             print("error occured in Demapping")
         
@@ -148,12 +165,14 @@ def BER (Bits, Received_Bits):
     Output:
         actual_ber: the sum of all errors occurred
     '''
-
+    error = 0
     #Converting them to ndarray
-    Bits = np.array(Bits)
-    Received_Bits = np.array(Received_Bits)
-    assert Received_Bits.size == Bits.size
-    return Received_Bits.size - np.count_nonzero(Bits == Received_Bits)
+    for i in range (len(Received_Bits)):
+        if (Bits[i] != Received_Bits[i]):
+            error += 1
+    
+    return error/len(Received_Bits)
+
 
 if __name__ == "__main__":
     ###VARIABLES###
@@ -169,24 +188,48 @@ if __name__ == "__main__":
     
     # Linearize Eb/N0
     '''
-        Liniarizing Eb/No inorder to get the Variance of AWGN at this point
+        Liniarizing Eb/No in order to get the Variance of AWGN at this point
     '''
     Eb_No = 10**(Eb_No_dB/10.0)
 
+    #Theoritcal and Actual Errors:
+    #Bit error rates of different Eb/N0
+    BERs = []
+    #Probability of errors of different Eb/N0
+    PEs = []
     #1- Mapper is always the same as E0 = 1/7 all the time
     Bits, Bits_to_Symbols, length = mapper()
 
     mean = 0
     for E_N0 in Eb_No:
         #2- Channel
-        variance = math.sqrt((1/E_N0)/2)
+        # variance = math.sqrt((1/E_N0)/2)
+        variance = (1/E_N0)
         #length//3 ==> floor(length/3)
         Noise = Channel(mean, variance, length//3)
-        #Adding the noise to Symbolic Bits
-        Noisy_Bits_to_Symbols = Bits_to_Symbols + Noise
+        #Adding the noise to Symbolic Bits ELEMENT WISE
+        Noisy_Bits_to_Symbols = []
+        for i in range (len(Bits_to_Symbols)):
+            Noisy_Bits_to_Symbols.append(Bits_to_Symbols[i] + Noise[i])
         
         #3- Demapping
         Received_Bits = DeMapper(Noisy_Bits_to_Symbols)
 
         #4- BER
         actual_ber =  BER(Bits, Received_Bits)
+        BERs.append(actual_ber)
+        PEs.append( (7/8)* (erfc(math.sqrt(E_N0/7))) *(1/3))
+
+    #Plotting1/3)
+    plt.rcParams["figure.figsize"] = (20,20)
+    
+    plt.semilogy(Eb_No_dB, PEs,'g',linewidth=2)
+    plt.semilogy(Eb_No_dB, BERs,'-s')
+    plt.grid(True)
+    plt.legend(('theoritical','simulation'))    
+    plt.xlabel('Eb/No (dB)')
+    plt.ylabel('BER')
+    plt.title("BER and Pe vs Eb/N0")
+    # plt.show()
+    plt.savefig("Figures/Figure_2")
+    print ("figure is saved at Figures/Figure_2.png")
