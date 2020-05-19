@@ -232,5 +232,5 @@ if __name__ == "__main__":
     plt.ylabel('BER')
     plt.title("BER and Pe vs Eb/N0")
     # plt.show()
-    plt.savefig("Figures/Figure_2")
-    print ("figure is saved at Figures/Figure_2.png")
+    plt.savefig("Figures/Figure_1")
+    print ("figure is saved at Figures/Figure_1.png")

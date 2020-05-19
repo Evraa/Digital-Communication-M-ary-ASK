@@ -89,9 +89,8 @@
     % \paragraph{}
     % \subparagraph{}
 %EXAMPLE
-    \section{Part 1}
-        Digital Communication
-
+    \section{Part 1: Digital Communication}
+        
     \subsection{Problem 1}
         Figure 1 below showing the comparison between simulated BER and theoritical (analytical) BER
         VS the Eb/N0 in db.
@@ -107,7 +106,7 @@
             \label{fig:Symbols}
         \end{figure}
 
-    \vspace{5cm}
+    \vspace{1cm}
 
     \subsection{Problem 3}
         The derivation of theoritical bit error rate.
@@ -141,6 +140,8 @@
 
     
     \subsection{Probelm 4}
+        Figure 1 below showing the comparison between simulated BER and theoritical (analytical) BER
+        VS the Eb/N0 in db.
         \begin{figure}[h!]
             %I put \linewidth into the brackets, which means the picture will be scaled to fit the width of the document.
             \includegraphics[width=\linewidth]{Figures/Figure_1.png}
@@ -148,6 +149,54 @@
             \label{fig:BER}
         \end{figure}
 
+    \subsection{Probelm 5}
+        The answer is NO,
+        We can't transmit at Rate 1 Mbps with bandwidth 0.5 MHz in passband transmition.
+
+        The minimum M required: 16
+        Only bit by bit transmittion is allowed.
+
+        GIVEN:
+        \begin{equation*}
+            Bt = 2Rs
+        \end{equation*}
+        \begin{equation*}
+            Rb = 1 Mbps
+        \end{equation*}
+        \begin{equation*}
+            BW = 0.5 MHz
+        \end{equation*}
+        \begin{equation*}
+            M = 3
+        \end{equation*}
+
+        REQUIRED:
+        \begin{equation*}
+            BW =? 2 * Rs
+        \end{equation*}
+        \begin{equation*}
+            BW =? 2 * \frac{Rb}{\log_2 M}
+        \end{equation*}
+        \begin{equation*}
+            BW =? 1Mbps * \frac{2}{3}
+        \end{equation*}
+
+        The Answer is: NO it can not be transmitted
+        
+        \begin{equation*}
+            0.5MHz =? 1Mbps * \frac{2}{\log_2 M}
+        \end{equation*}
+        \begin{equation*}
+            4MHz =? \log_2 M
+        \end{equation*}
+        \begin{equation*}
+            M = 16
+        \end{equation*}
+        
+    \subsection{Probelm 6}
+        Both of them satisfy the Gray Encoding criterion.
+
+        Because at the two examples only one bit is changed in each transition from symbol to the next one.
 
     \section{Section 2}
     Hello World 2!
