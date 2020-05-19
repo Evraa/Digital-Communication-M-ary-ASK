@@ -222,9 +222,10 @@ if __name__ == "__main__":
 
     #Plotting1/3)
     plt.rcParams["figure.figsize"] = (20,20)
+    plt.rcParams.update({'font.size': 35})
     
-    plt.semilogy(Eb_No_dB, PEs,'g',linewidth=2)
-    plt.semilogy(Eb_No_dB, BERs,'-s')
+    plt.semilogy(Eb_No_dB, PEs,linestyle = 'solid',linewidth=4)
+    plt.semilogy(Eb_No_dB, BERs,linestyle = 'dashed',linewidth=4)
     plt.grid(True)
     plt.legend(('theoritical','simulation'))    
     plt.xlabel('Eb/No (dB)')
