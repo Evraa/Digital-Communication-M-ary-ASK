@@ -5,7 +5,8 @@
 \usepackage[T1]{fontenc}
 \usepackage{xcolor,graphicx}
 \usepackage[top=0.6in,bottom=0.6in,right=1in,left=1in]{geometry}
-
+\usepackage{color}
+\usepackage{listings}
 
 \begin{document}
 \begin{titlepage}
@@ -358,6 +359,16 @@
 
     \end{itemize}
 
+    \newpage
 
+    \section{Appendix: Main Code for part 1}
 
+    \lstset{language=Python}
+    \lstset{frame=lines}
+    \lstset{caption={Main Code for part 1}}
+    \lstset{label={lst:code_direct}}
+    \lstset{basicstyle=\footnotesize}
+    \lstinputlisting[language=Python]{../main.py}
+
+    
 \end{document}
