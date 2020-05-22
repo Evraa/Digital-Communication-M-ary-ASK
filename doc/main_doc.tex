@@ -42,6 +42,7 @@
     \begin{minipage}{15cm}
       \begin{flushleft} \huge
         \emph{Submitted to:}\\
+        Dr.~Hala \textsc{Abdel Kader}\\
         Dr.~Mai \textsc{Badawi}\\
       \end{flushleft}
     \end{minipage}
@@ -65,9 +66,7 @@
     \end{center}
     \end{titlepage}
 
-% This can be done by adding the \pagenumbering{gobble}
-% command and then changing it back to \pagenumbering{arabic} 
-% on the next page numbers like so:
+
     \pagenumbering{gobble}
     \newpage
     \pagenumbering{arabic}
@@ -75,20 +74,10 @@
     \pagenumbering{gobble}
     \tableofcontents
     \listoffigures
-    \listoftables
     \newpage
     \pagenumbering{arabic}
 
-% These commands for Sectioning...
-% The section commands are numbered and will appear in the table of contents of your document.
-% Paragraphs aren't numbered and won't show in the table of contents.
-    % \section{}
-    % \subsection{}
-    % \subsubsection{}
 
-    % \paragraph{}
-    % \subparagraph{}
-%EXAMPLE
     \section{Part 1: Digital Communication}
         
     \subsection{Problem 1}
@@ -97,8 +86,15 @@
 
         Please notice, you'll have to input the no. 
             of bits you wish to be transmitted, and it has to be divisible by 3.
+
     \subsection{Problem 2}
         The constellation of the 8-ary with decision region pf each symbol.
+
+        Boundaries are at:
+        \begin{equation*}
+            -6 \sqrt{E}, -4 \sqrt{E}, -2 \sqrt{E}, 0, 2 \sqrt{E}, 4 \sqrt{E}, 6 \sqrt{E}
+        \end{equation*}
+        \vspace{-1cm}
         \begin{figure}[h!]
             %I put \linewidth into the brackets, which means the picture will be scaled to fit the width of the document.
             \includegraphics[width=\linewidth]{Figures/Figure_2.jpg}
@@ -109,7 +105,7 @@
     \vspace{1cm}
 
     \subsection{Problem 3}
-        The derivation of theoritical bit error rate.
+        The derivation of theoritical bit error rate using 8-ary.
         \begin{equation}
             Pe = \frac{1}{8} \displaystyle\sum_{i=0}^{7} P(e|Si) 
         \end{equation}
@@ -189,6 +185,8 @@
         \begin{equation*}
             4MHz =? \log_2 M
         \end{equation*}
+
+        and Minimum M alowed is:
         \begin{equation*}
             M = 16
         \end{equation*}
@@ -198,55 +196,167 @@
 
         Because at the two examples only one bit is changed in each transition from symbol to the next one.
 
-    \section{Section 2}
-    Hello World 2!
+    \newpage
 
-    \subsection{Subsection 2.1}
-    Equations:
-    %Numbered equation
+    \section{Part 2: Information Theory}
+        Cyclic Codes.
+    \subsection{Definition of Cyclic Codes}
+    A Cyclic Codes is a block codes that follow the property of linearity
+    where the circular i shift to the left (or n-1 shift to the right) always
+    result in a word that belongs to the code words.
     
-        \begin{equation}
-            \frac{n!}{k!(n-k)!} = \binom{n}{k}  
-        \end{equation}
-        \begin{equation}
-            x^\frac{1}{2}  
-        \end{equation}
-        \begin{equation}
-            \frac{\mathrm d}{\mathrm d x} \big( k g(x) \big)
-        \end{equation}
-    %Unnumbered
+    {\renewcommand\labelitemi{}
+    \begin{itemize}
+        \item They are defined as $C(x) = (n, k)$ it means the message has $k$ bits
+                and the code vector is $n$ bits.
+        \item $C(x)$ are defined with the help of generator polynomial $g(x)$.
+        \item The degree of $g(x)$ is equal to the number of parity-check digits of the code.
+        \item There are total of $2^k$ code polynomials in $C(x)$.
+        \item They are error-correction codes, used earlier to transmit images of planets.
+        \item They have algebric properties that help detecting and correcting errors.
+        \item Cyclic codes can be used to correct errors, it can be generalized to correct
+        burst of errors, not just one bit.
+        \item For example the set of [000, 1111, 0110, 1001]:
+                
+                They follow the Linearity property, but not the Cyclic Shift property,
+                therefore they can't be considered a valide Cyclic Codes.
+        \item Another Example the set of [0000, 1111, 0101, 1010]:
+                
+                They follow both the linearity and cyclic shift property.
+                Because, when adding any two of them it will result in another (third) codeword
+                that lies in the finite list.
+    \end{itemize}
+    
+
+    \subsection{Systematic CodeWords:}
+        In Systematic Codewords $C(x) = \left[ message, parity\right]$ this means, each
+        generated codeword's first $k$ bits are the message that got us that codeword
+        while the remaining $n-k$ bits are the parity check of the codeword.
+
+        Systematic Codewords follow the following conditions:
         \begin{equation*}
-            f(x) = x^2
+            C(x) = x^{n-k} m(x) + p(x)
         \end{equation*}
-    
-    \section{Math}
-    %To write equations withina a sentence
-    ...
-    This formula $f(x) = x^2$ is an example.
-    ...
-    \begin{align*}
-        f(x) &= x^2\\
-        g(x) &= \frac{1}{x}\\
-        F(x) &= \int^a_b \frac{1}{3}x^3
-      \end{align*}
-    
-    \section{Figures}
-    
+        Where:
+        \begin{equation*}
+            p(x) = Rem \left[ \frac{x^{n-k} m(x)}{g(x)} \right]
+        \end{equation*}
 
-    \begin{figure}[h!]
-    \centering
-    \begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=\linewidth]{slogan.jpg}
-        \caption{Meme.}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.4\linewidth}
-        \includegraphics[width=\linewidth]{slogan.jpg}
-        \caption{Same Meme.}
-    \end{subfigure}
-    \caption{The same meme, Two times.}
-    \label{fig:coffee}
-    \end{figure}
+        and,
 
+        $C(x)$ is codeword polynomial
+        
+        $m(x)$ is message polynomial
+        
+        $g(x)$ is generator polynomial
+
+        \vspace{0.5cm}
+        Example: Constructing a Systematic Cyclic Codes (7,4), using generator polynomial
+        $g(x) = x^3 + x^2 +1$ , with message $[1 0 1 0]$.
+        \vspace{0.5cm}
+        
+        Answer:
+
+        $m(x) = x^3 + x$
+        
+        $p(x) = Rem \left[ \frac{ x^{3} *\left(x^3 + x\right) }{\left( x^3 + x^2 +1\right)} \right]$
+
+        From division:
+
+        $p(x) = 1$
+
+        therefore,
+
+        $C(x) = x^3 * \left(x^3 + x\right) + 1$
+        
+        $C(x) = x^6 + x^4 + 1$
+        
+        $C(x) = \left[1010001\right]$
+        
+    {\renewcommand\labelitemi{}
+    \begin{itemize}
+        \item You may notice that the message $m(x) = 1 0 1 0$ and the first $k$ bits in the generated
+            codeword is also $1010$
+        \item Will the rest of the codeword is the parity check.
+    \end{itemize}
+
+        
+    \subsection{Relation between generator polynomial and generator matrix:}
+        At the last section we've introduced the difinition of generator polynomial
+        such that $g(x) =x^3 + x^2 +1 $, this polynomial is unique and we can derive all the other
+        codewords from it by multiplying with the various messages allowed.
+
+    {\renewcommand\labelitemi{}
+    \begin{itemize}
+        \item In cyclic code $C$, the generator matrix's dimentsions is $[n,k]$
+            $n$ number of columns and $k$ number of rows.
+        \item Generator Matric $[G]$ is composed of $[I,P]$, $I$ is the identity matrix
+            with dimentsions of $[k,k]$
+            while $P$ is the parity matrix with the dimentsions of $[k, (n-k)]$
+        \item So, the main core of our problem is identifying the parity matrix, 
+        and it is identified as follows:
+
+        \begin{equation*}
+            k^{th} Row = Rem \left[ \frac{x^{n-k}}{g(x)} \right]
+        \end{equation*}
+
+        \item continuing on the previous example the generator matrix will be something like this:
+        \begin{equation*}
+            G(x) = \left[ 
+                \begin{matrix}
+                1 & 0 & 0 & 0 & - & - & -\\
+                0 & 1 & 0 & 0 & - & - & - \\
+                0 & 0 & 1 & 0 & - & - & - \\
+                0 & 0 & 0 & 1 & - & - & -                
+                \end{matrix}
+               \right]
+        \end{equation*}
+
+        so, to calculate the parity matrix we'll solve the following equations:
+
+        \begin{equation*}
+            1^{st} Row = Rem \left[ \frac{x^{6}}{ x^3 + x^2 +1} \right]
+        \end{equation*}
+        \begin{equation*}
+            1^{st} Row = x^2 +1 = [1 0 1]
+        \end{equation*}
+
+        \begin{equation*}
+            2^{nd} Row = Rem \left[ \frac{x^{5}}{ x^3 + x^2 +1} \right]
+        \end{equation*}
+        \begin{equation*}
+            2^{st} Row = x^2 +x +1 = [1 1 1]
+        \end{equation*}
+
+        \begin{equation*}
+            3^{rd} Row = Rem \left[ \frac{x^{4}}{ x^3 + x^2 +1} \right]
+        \end{equation*}
+        \begin{equation*}
+            3^{rd} Row = x^2 +1 = [1 0 1]
+        \end{equation*}
+
+        \begin{equation*}
+            4^{th} Row = Rem \left[ \frac{x^{3}}{ x^3 + x^2 +1} \right]
+        \end{equation*}
+        \begin{equation*}
+            4^{th} Row = x +1 = [0 1 1]
+        \end{equation*}
+
+        therefore the final matrix will be:
+
+        \begin{equation*}
+            G(x) = \left[ 
+                \begin{matrix}
+                1 & 0 & 0 & 0 & 1 & 0 & 1\\
+                0 & 1 & 0 & 0 & 1 & 1 & 1 \\
+                0 & 0 & 1 & 0 & 1 & 0 & 1 \\
+                0 & 0 & 0 & 1 & 0 & 1 & 1                
+                \end{matrix}
+               \right]
+        \end{equation*}
+
+
+    \end{itemize}
 
 
 
