@@ -121,7 +121,7 @@
         \begin{equation}
             Pe(e|S1) = Pe(e|S2) = Pe(e|S3) = Pe(e|S4) = Pe(e|S5) = Pe(e|S6)
         \end{equation}
-        Using Union bound S0, S7 only one neighbour and S1, S2,...S6 has two neighbours.
+        Using Union bound S0 and S7 has only one neighbour and S1, S2,...S6 has two neighbours.
         \begin{equation}
             Pe(e|S0) = \frac{1}{2} erfc(\frac{\sqrt{E}}{\sqrt{N}})
         \end{equation}
@@ -133,11 +133,19 @@
             Pe(e|S1) = erfc(\frac{\sqrt{E}}{\sqrt{N}})
         \end{equation}
         \begin{equation}
-            Pe = \frac{1}{8 * 3} (2 * \frac{1}{2} erfc(\frac{\sqrt{E}}{\sqrt{N}}) 
+            Pe = \frac{1}{8} (2 * \frac{1}{2} erfc(\frac{\sqrt{E}}{\sqrt{N}}) 
                 + 6 * erfc(\frac{\sqrt{E}}{\sqrt{N}}))
         \end{equation}
         \begin{equation}
-            Pe = \frac{7}{24} (erfc(\frac{\sqrt{E}}{\sqrt{N}}))
+            Pe = \frac{7}{8} erfc(\frac{\sqrt{E}}{\sqrt{N}}) 
+        \end{equation}
+
+        So, BER (per bit) will be:
+        \begin{equation}
+            BER = \frac{Pe}{3}
+        \end{equation}
+        \begin{equation}
+            BER = \frac{7}{24} (erfc(\frac{\sqrt{E}}{\sqrt{N}}))
         \end{equation}
 
     
@@ -207,10 +215,12 @@
     \section{Part 2: Information Theory}
         Cyclic Codes.
     \subsection{Definition of Cyclic Codes}
-    A Cyclic Codes is a block codes that follow the property of linearity
-    where the circular i shift to the left (or n-1 shift to the right) always
-    result in a word that belongs to the code words.
+    Cyclic Codes are block codes that follow the property of linearity because they are subset of Linear codes,
+    and also they have to follow the property of shifting where the circular i shift to the left (or n-1 shift to the right) always
+    result in another word that belongs to the code words.
     
+    They are studied usually in polynomial form because it's easier to represent them as coefficients of
+        polynomials.
     {\renewcommand\labelitemi{}
     \begin{itemize}
         \item They are defined as $C(x) = (n, k)$ it means the message has $k$ bits
@@ -364,16 +374,90 @@
 
     \end{itemize}
 
+    \subsection{Cyclic Codes Encoding Procedure}
+    As we already know the code word consists of [message, parity], \textit{message} is what the system gives
+        as an input, \textit{parity} is what gets we encode, each code word is $N$ bits,
+        the first $K$ of them are the message, while the rest $N-K$ are the parity.
+    
+    Initially the values of the flip-flops is set to the generator polynomial, and with every bit
+        inserted from the message input the new value of the flip-flop is decided then, whether it will 
+        be the same or the result from the outcome of the XOR (Add) operation.
+
+    Shown in fig. \ref{fig:encoder}, a simple encoder of $k$ bits parity for codewords.
+    \begin{figure}[h!]
+        %I put \linewidth into the brackets, which means the picture will be scaled to fit the width of the document.
+        \includegraphics[width=\linewidth]{Figures/cyclic_codes_encoding.png}
+        \caption{Cyclic Code Encoder}
+        \label{fig:encoder}
+    \end{figure}
+
+    The Initial value of these branches is dominated by the generator polynomial, so if Initially one
+        of these branches is equal to zero, it will remain zero for the rest of the operation,
+        and pass the value of the previous flip-flop to the next one without making any additions.
+
+    The input value of each flip-flop could be the previous value of another flip-flop, the outcome
+        of the addition process or -in case of the first flip-flop- the coutcome of the input message bit
+        XORed with the MSB parity bit.
+    
+    This process goes on and on for all of the input message bits, until the last one of them,
+        and then the remaining values of parity is the actual encoding bits we are looking for,
+        and our codeword is the [message, parity].
+    \newline
+
+    Below is an example, illustrating more on that:
+        \begin{itemize}
+            \item If polynomial generator is $g(x) = 1 + x + x^3$
+            \item message is [1110]
+            \item we are asked to generate codeword for it..
+        \end{itemize}
+
+    Solution:
+        \begin{itemize}
+            \item the generator is $1101$ and that's the init. value of the branches.
+        \end{itemize}
+    
+        \begin{center}
+            \begin{tabular}{||c c c c||} 
+            \hline
+            msg & P0 & P1 & P2 \\ [0.5ex] 
+            \hline\hline
+            - & 0 & 0 & 0 \\ 
+            \hline
+            1 & 1 & 1 & 0 \\
+            \hline
+            1 & 1 & 0 & 1 \\
+            \hline
+            1 & 0 & 1 & 0 \\
+            \hline
+            0 & 0 & 0 & 1 \\ [1ex] 
+            \hline
+           \end{tabular}
+           \end{center}
+        \begin{itemize}
+            \item as one can see:
+            \item at the first row, the init value of the polynomials is zeros
+            \item at the second row, after inputing 1 from the message,
+                $P0$ value is $XOR$ of the input message bit and $P2$,
+                $P1$ value is $XOR$ of old $P0$ and $1$ from the branch,
+                $P2$ value is the same as old $P1$ because its branch is zero.
+            \item and so on until we reach the end of the input message's bits.
+        \end{itemize}
+    
+    input message is [1110] and parity bits is [001]
+    
+    So the final codeword is [1110001]
+    %%%%%%%%%%%%%%%%%%%%%%%%%%APPENDIX%%%%%%%%%%%%%%%%%%%%%%%%%%
     \newpage
 
     \section{Appendix: Main Code for part 1}
 
     \lstset{language=Python}
     \lstset{frame=lines}
-    \lstset{caption={Main Code for part 1}}
-    \lstset{label={lst:code_direct}}
+    % \lstset{caption={Main Code for part 1}}
+    % \lstset{label={lst:code_direct}}
     \lstset{basicstyle=\footnotesize}
     \lstinputlisting[language=Python]{../main.py}
 
     
 \end{document}
+

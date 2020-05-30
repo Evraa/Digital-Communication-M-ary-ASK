@@ -11,7 +11,8 @@ def generateRandomProcess(elementCount):
     This function returns random process of streaming bits 0 an 1.
 
     eg. [1, 0, 0, 1,....]
-    and we know for sure that the main function is checking that the elementCount
+    and we know for sure that the main
+    function is checking that the elementCount
     is divisible by 3
     '''
     XofT = []
@@ -47,7 +48,8 @@ def mapper():
     E0 = 1/7
     elemCount = 1
     while elemCount%3 != 0:
-        elemCount = int(input("Please enter the desired count of elements, and make sure it is divisible by 3: "))
+        elemCount = int(input("Please enter the desired count of elements,\
+            and make sure it is divisible by 3: "))
 
     Bits = generateRandomProcess (elemCount)
    
@@ -85,7 +87,8 @@ def mapper():
 def Channel (mean, variance, length):
     '''
     Function:
-        This Function is responsible for simulating the AWGN channel effect of adding random noise to the 
+        This Function is responsible for simulating the AWGN channel effect
+        of adding random noise to the 
     transmitted signal.
 
     Inputs:
