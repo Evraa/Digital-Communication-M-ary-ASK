@@ -7,6 +7,8 @@
 \usepackage[top=0.6in,bottom=0.6in,right=1in,left=1in]{geometry}
 \usepackage{color}
 \usepackage{listings}
+\usepackage{booktabs}
+% \usepackage{blindtext}
 
 \begin{document}
 \begin{titlepage}
@@ -214,6 +216,7 @@
 
     \section{Part 2: Information Theory}
         Cyclic Codes.
+        The following content is refernced from \cite{ref1,ref2}.
     \subsection{Definition of Cyclic Codes}
     Cyclic Codes are block codes that follow the property of linearity because they are subset of Linear codes,
     and also they have to follow the property of shifting where the circular i shift to the left (or n-1 shift to the right) always
@@ -446,6 +449,12 @@
     input message is [1110] and parity bits is [001]
     
     So the final codeword is [1110001]
+    \medskip
+    \addcontentsline{toc}{section}{References}
+    \bibliographystyle{unsrt}
+    \bibliography{main_doc}
+        
+
     %%%%%%%%%%%%%%%%%%%%%%%%%%APPENDIX%%%%%%%%%%%%%%%%%%%%%%%%%%
     \newpage
 
